@@ -20,7 +20,7 @@ const MODIFICATION_ID_GRADE = -3;
 const MODIFICATION_ID_SPECIAL = -4;
 
 /**
- * Returns the power usage type of a slot and it's particular module
+ * Returns the power usage type of a slot and its particular module
  * @param  {Object} slot      The Slot
  * @param  {Object} modul     The module in the slot
  * @return {String}           The key for the power usage type
