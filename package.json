@@ -103,7 +103,6 @@
     "json-loader": "^0.5.4",
     "less": "^3.8.1",
     "less-loader": "^4.1.0",
-    "react-addons-perf": "^15.4.2",
     "react-container-dimensions": "^1.4.1",
     "react-testutils-additions": "^16.0.0",
     "react-transition-group": "^2.5.0",
