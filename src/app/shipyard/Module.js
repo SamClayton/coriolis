@@ -71,7 +71,7 @@ export default class Module {
 
   /**
    * Set a value for a given modification ID
-   * @param {Number} name                 The name of the modification
+   * @param {Number} name   The name of the modification
    * @param {object} value  The value of the modification. If it is a numeric value then it should be an integer scaled so that -2.34% == -234
    * @param {Boolean}   valueiswithspecial   true if the value includes the special effect (when coming from a UI component)
    */
@@ -184,8 +184,7 @@ export default class Module {
    * Returns a value for a given modification in pretty format, i.e. percentages
    * are returned as 90 not as 0.9.
    * @param {String} name Name of the modification to get the value for
-   * @param {Boolean} [modified = true] If set to false, the raw value of the
-   *                                    raw value of the stat is returned
+   * @param {Boolean} [modified = true] If set to false, the raw value of the stat is returned
    * @param {Number} [places = 2] Number of decimal places to round
    * @return {Number} Value for given stat
    */

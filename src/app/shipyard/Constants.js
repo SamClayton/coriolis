@@ -101,6 +101,7 @@ export const ModuleGroupToName = {
   sdm: 'Sub-Surface Displacement Missile',
 };
 
+// seriously, just use Group
 let GrpNameToCodeMap = {};
 
 for (let grp in ModuleGroupToName) {
@@ -255,6 +256,7 @@ export const Insurance = {
 
 /**
  * Set of all available / theoretical discounts
+ * TODO Maybe just do the math here. 
  */
 export const Discounts = {
   '0%': 1,

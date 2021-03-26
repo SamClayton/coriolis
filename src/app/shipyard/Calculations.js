@@ -4,7 +4,7 @@ import Module from './Module';
  * Calculate the maximum single jump range based on mass and a specific FSD
  *
  * @param  {number} mass Mass of a ship: laden, unlanden, partially laden, etc
- * @param  {object} fsd  The FDS object/component with maxfuel, fuelmul, fuelpower, optmass
+ * @param  {object} fsd  The FSD object/component with maxfuel, fuelmul, fuelpower, optmass
  * @param  {number} fuel Optional - The fuel consumed during the jump
  * @return {number}      Distance in Light Years
  * @param {object} ship Ship instance
@@ -16,6 +16,8 @@ export function jumpRange(mass, fsd, fuel, ship) {
   if (ship) {
     mass += ship.reserveFuelCapacity || 0;
     for (const module of ship.internal) {
+      // What is module.m.grp? "group". Seriously, no reason to shave 2 chars here
+      // Where are getSlotStatus values defined? Could they be replaced with an object with named values?
       if (module && module.m && module.m.grp === 'gfsb' && ship.getSlotStatus(module) == 3) {
         jumpAddition += module.m.getJumpBoost();
       }
@@ -454,7 +456,7 @@ export function shieldMetrics(ship, sys) {
      * deal with a ship's shield strength.
      * @typedef {Object} ShieldDamageMults
      * @property {number} generator Base damage multiplier of the shield
-     * contributing it's base resistance.
+     * contributing its base resistance.
      * @property {number} boosters Damage multiplier contributed by all
      * boosters, i.e. `rawMj / (generator * boosters)` equals shield strength
      * with 0 pips to sys.

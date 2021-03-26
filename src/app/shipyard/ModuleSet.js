@@ -24,6 +24,7 @@ export default class ModuleSet {
    */
   constructor(modules, shipData) {
     let maxInternal = isNaN(shipData.slots.internal[0]) ? shipData.slots.internal[0].class : shipData.slots.internal[0];
+    // Why the hardcoded 6.5?
     let mass = shipData.properties.hullMass + 6.5;
     let maxStandardArr = shipData.slots.standard;
     let maxHardPoint = shipData.slots.hardpoints[0];
@@ -44,6 +45,7 @@ export default class ModuleSet {
     this.standard[4] = filter(stnd.pd, maxStandardArr[4], 0, mass);  // Power Distributor
     this.standard[6] = filter(stnd.ft, maxStandardArr[6], 0, mass);  // Fuel Tank
     // Thrusters, filter modules by class only (to show full list of ratings for that class)
+    // Dafuq is 'clazz'?
     let minThrusterClass = stnd.t.reduce((clazz, th) => (th.maxmass >= mass && th.class < clazz) ? th.class : clazz, maxStandardArr[1]);
     this.standard[1] = filter(stnd.t, maxStandardArr[1], minThrusterClass, 0);  // Thrusters
     // Slots where module class must be equal to slot class

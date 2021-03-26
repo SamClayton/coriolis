@@ -1,5 +1,5 @@
 /**
- * Modification - a modification and its value
+ * Modification - an engineering modification and its value
  */
 export default class Modification {
   /**
