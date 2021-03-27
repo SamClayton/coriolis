@@ -13,7 +13,8 @@
   "scripts": {
     "extract-translations": "grep -hroE \"(translate\\('[^']+'\\))|(tip.bind\\(null, '[^']+')\" src/* | grep -oE \"'[^']+'\" | grep -oE \"[^']+\" | sort -u -f",
     "clean": "rimraf build",
-    "start": "node devServer.js",
+    "start": "node src/app/index.js",
+    "start-dev": "node devServer.js",
     "lint": "eslint --ext .js,.jsx src",
     "test": "jest",
     "prod-serve": "nginx -p $(pwd) -c nginx.conf",
