@@ -126,7 +126,7 @@
     "auto-bind": "^2.1.1",
     "browserify-zlib-next": "^1.0.1",
     "classnames": "^2.2.6",
-    "coriolis-data": "../coriolis-data",
+    "coriolis-data": "git://github.com/edcd/coriolis-data.git",
     "d3": "^5.7.0",
     "detect-browser": "^3.0.1",
     "ed-forge": "github:EDCD/ed-forge",
