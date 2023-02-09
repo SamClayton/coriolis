@@ -1,8 +1,7 @@
 import * as ModuleUtils from './ModuleUtils';
 import { Modifications } from 'coriolis-data/dist';
 import React from 'react';
-import { SI_PREFIXES, STATS_FORMATTING } from './StatsFormatting';
-import { includes } from 'lodash';
+import { STATS_FORMATTING, SI_PREFIXES } from './StatsFormatting';
 
 /**
  * Module - active module in a ship's buildout
@@ -42,7 +41,8 @@ export default class Module {
    * @return {object}     The value of the modification. If it is a numeric value then it is returned as an integer value scaled so that 1.23% == 123
    */
   getModValue(name, raw) {
-    let result = this.mods && this.mods[name] ? this.mods[name] : null;
+    let baseVal = this[name];
+    let result = this.mods  && this.mods[name] ? this.mods[name] : null;
 
     if ((!raw) && this.blueprint && this.blueprint.special) {
       // This module has a special effect, see if we need to alter our returned value
@@ -51,8 +51,7 @@ export default class Module {
         // this special effect modifies our returned value
         const modification = Modifications.modifications[name];
         const multiplier = modification.type === 'percentage' ? 10000 : 100;
-
-        if (includes(['explres', 'kinres', 'thermres', 'causres'], name)) {
+        if (name === 'explres' || name === 'kinres' || name === 'thermres' || name === 'causres') {
           // Apply resistance modding mechanisms to special effects subsequently
           result = result + modifierActions[name] * (1 - (this[name] + result / multiplier)) * 100;
         } else if (modification.method === 'additive') {
@@ -60,7 +59,7 @@ export default class Module {
         } else if (modification.method === 'overwrite') {
           result = modifierActions[name];
         } else {
-          result = result + modifierActions[name] * multiplier;
+          result = (((1 + result / multiplier) * (1 + modifierActions[name])) - 1) * multiplier;
         }
       }
     }
@@ -71,7 +70,7 @@ export default class Module {
 
   /**
    * Set a value for a given modification ID
-   * @param {Number} name                 The name of the modification
+   * @param {String} name                 The name of the modification
    * @param {object} value  The value of the modification. If it is a numeric value then it should be an integer scaled so that -2.34% == -234
    * @param {Boolean}   valueiswithspecial   true if the value includes the special effect (when coming from a UI component)
    */
@@ -82,7 +81,13 @@ export default class Module {
     if (!this.origVals) {
       this.origVals = {};
     }
-    if (valueiswithspecial && this.blueprint && this.blueprint.special) {
+    if (!valueiswithspecial) {
+      // Resistance modifiers scale with the base value.
+      if (name === 'kinres' || name === 'thermres' || name === 'causres' || name === 'explres') {
+        let baseValue = this.get(name, false);
+        value = (1 - baseValue) * value;
+      }
+    } else if (valueiswithspecial && this.blueprint && this.blueprint.special) {
       // This module has a special effect, see if we need to alter the stored value
       const modifierActions = Modifications.modifierActions[this.blueprint.special.edname];
       if (modifierActions && modifierActions[name]) {
@@ -114,7 +119,7 @@ export default class Module {
   /**
    * Helper to obtain a module's value.
    * @param {String} name     The name of the modifier to obtain
-   * @param {Number} modified Whether to return the raw or modified value
+   * @param {Boolean} modified Whether to return the raw or modified value
    * @return {Number} The value queried
    */
   get(name, modified = true) {

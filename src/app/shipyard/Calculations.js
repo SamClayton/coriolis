@@ -383,7 +383,8 @@ export function shieldMetrics(ship, sys) {
 
     // Our initial regeneration comes from the SYS capacitor store, which is replenished as it goes
     // 0.6 is a magic number from FD: each 0.6 MW of energy from the power distributor recharges 1 MJ/s of regeneration
-    let capacitorDrain = (shieldGenerator.getBrokenRegenerationRate() * 0.6) - sysRechargeRate;
+    let capacitorDrain = (shieldGenerator.getBrokenRegenerationRate() * shieldGenerator.getDistDraw()) - sysRechargeRate;
+    
     let capacitorLifetime = powerDistributor.getSystemsCapacity() / capacitorDrain;
 
     let recover = 16;
@@ -399,7 +400,7 @@ export function shieldMetrics(ship, sys) {
         recover = Math.Infinity;
       } else {
         // Recover remaining shields at the rate of the power distributor's recharge
-        recover += remainingShieldToRecover / (sysRechargeRate / 0.6);
+        recover += remainingShieldToRecover / (sysRechargeRate / shieldGenerator.getDistDraw());
       }
     }
 
@@ -408,7 +409,7 @@ export function shieldMetrics(ship, sys) {
 
     // Our initial regeneration comes from the SYS capacitor store, which is replenished as it goes
     // 0.6 is a magic number from FD: each 0.6 MW of energy from the power distributor recharges 1 MJ/s of regeneration
-    capacitorDrain = (shieldGenerator.getRegenerationRate() * 0.6) - sysRechargeRate;
+    capacitorDrain = (shieldGenerator.getRegenerationRate() * shieldGenerator.getDistDraw()) - sysRechargeRate;
     capacitorLifetime = powerDistributor.getSystemsCapacity() / capacitorDrain;
 
     let recharge = 0;
@@ -424,7 +425,7 @@ export function shieldMetrics(ship, sys) {
         recharge = Math.Inf;
       } else {
         // Recharge remaining shields at the rate of the power distributor's recharge
-        recharge += remainingShieldToRecharge / (sysRechargeRate / 0.6);
+        recharge += remainingShieldToRecharge / (sysRechargeRate / shieldGenerator.getDistDraw());
       }
     }
 
@@ -918,8 +919,8 @@ export function _weaponSustainedDps(m, opponent, opponentShields, opponentArmour
   weapon.effectiveness.shields.total = weapon.effectiveness.shields.range * weapon.effectiveness.shields.sys * weapon.effectiveness.shields.resistance;
   weapon.effectiveness.armour.total = weapon.effectiveness.armour.range * weapon.effectiveness.armour.resistance * weapon.effectiveness.armour.hardness;
 
-  weapon.effectiveness.shields.dpe = weapon.damage.shields.total / m.getEps();
-  weapon.effectiveness.armour.dpe =  weapon.damage.armour.total / m.getEps();
+  weapon.effectiveness.shields.dpe = weapon.damage.shields.total / m.getEps() / m.getSustainedFactor();
+  weapon.effectiveness.armour.dpe =  weapon.damage.armour.total / m.getEps() / m.getSustainedFactor();
 
 
   return weapon;
