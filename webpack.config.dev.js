@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const pkgJson = require('./package');
 const buildDate = new Date();
@@ -18,7 +18,14 @@ module.exports = {
   },
   resolve: {
     // When requiring, you don't need to add these extensions
-    extensions: ['.js', '.jsx', '.json', '.less']
+    extensions: ['.js', '.jsx', '.json', '.less'],
+    fallback: {
+      // Consider replacing this c. 2016 package with pako, which it's just a wrapper for
+      "zlib": require.resolve("browserify-zlib-next"),
+      "assert": require.resolve("assert/"),
+      "buffer": require.resolve("buffer/"),
+      "stream": require.resolve("stream-browserify")
+    }
   },
   optimization: {
     minimize: false,
@@ -42,7 +49,7 @@ module.exports = {
       date: buildDate,
       gapiKey: process.env.CORIOLIS_GAPI_KEY || ''
     }),
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: 'app.css',
       disable: false,
       allChunks: true
@@ -53,17 +60,17 @@ module.exports = {
   ],
   module: {
     rules: [
-      { test: /\.css$/, loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }) },
+      { test: /\.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader' ]},
       {
         test: /\.less$/,
-        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader!less-loader' })
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader' ]
       },
-      { test: /\.(js|jsx)$/, loaders: ['babel-loader'], include: path.join(__dirname, 'src') },
-      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
-      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
-      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/octet-stream' },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader' },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=image/svg+xml' }
+      { test: /\.(js|jsx)$/, use: ['babel-loader'], include: path.join(__dirname, 'src') },
+      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, use: 'url-loader?limit=10000&mimetype=application/font-woff' },
+      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, use: 'url-loader?limit=10000&mimetype=application/font-woff' },
+      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, use: 'url-loader?limit=10000&mimetype=application/octet-stream' },
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, use: 'file-loader' },
+      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, use: 'url-loader?limit=10000&mimetype=image/svg+xml' }
     ]
   }
 };

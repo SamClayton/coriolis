@@ -12,7 +12,6 @@ RUN npm install
 WORKDIR /app
 RUN npm install
 
-ENV NODE_OPTIONS=--openssl-legacy-provider
 CMD ["npm", "start"]
 
 EXPOSE 3300
