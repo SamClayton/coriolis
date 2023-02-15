@@ -1,12 +1,17 @@
 {
   "name": "coriolis_shipyard",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/EDCD/coriolis"
   },
   "homepage": "https://coriolis.io",
   "bugs": "https://github.com/EDCD/coriolis/issues",
+  "contributors": [
+    {"name": "cmdrmcdonald"},
+    {"name": "willb321"},
+    {"name": "felixlinker"}
+  ],
   "private": true,
   "engine": "node >= 4.8.1",
   "license": "MIT",
