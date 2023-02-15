@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { InjectManifest } = require('workbox-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { BugsnagSourceMapUploaderPlugin, BugsnagBuildReporterPlugin } = require('webpack-bugsnag-plugins');
@@ -14,7 +14,14 @@ module.exports = {
     main: './src/app/index.js'
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.json', '.less']
+    extensions: ['.js', '.jsx', '.json', '.less'],
+    fallback: {
+      // Consider replacing this c. 2016 package with pako, which it's just a wrapper for
+      "zlib": require.resolve("browserify-zlib-next"),
+      "assert": require.resolve("assert/"),
+      "buffer": require.resolve("buffer/"),
+      "stream": require.resolve("stream-browserify")
+    }
   },
   output: {
     path: path.join(__dirname, 'build'),
@@ -45,7 +52,7 @@ module.exports = {
       date: buildDate,
       version: pkgJson.version
     }),
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: '[hash:6].css',
       disable: false,
       allChunks: true
@@ -61,23 +68,23 @@ module.exports = {
     // }),
     new InjectManifest({
       swSrc: './src/sw.js',
-      importWorkboxFrom: 'cdn',
+      //importWorkboxFrom: 'cdn',
       swDest: 'service-worker.js'
     }),
   ],
   module: {
     rules: [
-      { test: /\.css$/, loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }) },
+      { test: /\.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader' ]},
       {
         test: /\.less$/,
-        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader!less-loader' })
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader' ]
       },
-      { test: /\.(js|jsx)$/, loader: 'babel-loader?cacheDirectory=true', include: path.join(__dirname, 'src') },
-      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
-      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
-      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/octet-stream' },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader' },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=image/svg+xml' }
+      { test: /\.(js|jsx)$/, use: ['babel-loader'], include: path.join(__dirname, 'src') },
+      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, use: 'url-loader?limit=10000&mimetype=application/font-woff' },
+      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, use: 'url-loader?limit=10000&mimetype=application/font-woff' },
+      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, use: 'url-loader?limit=10000&mimetype=application/octet-stream' },
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, use: 'file-loader' },
+      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, use: 'url-loader?limit=10000&mimetype=image/svg+xml' }
     ]
   }
 };

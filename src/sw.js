@@ -2,7 +2,7 @@ console.log('Hello from sw.js');
 
 if (workbox) {
   console.log('Yay! Workbox is loaded 🎉');
-  workbox.precaching.precacheAndRoute(self.__precacheManifest);
+  workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
 
   workbox.routing.registerNavigationRoute('/index.html');
 
