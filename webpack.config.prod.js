@@ -4,12 +4,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { InjectManifest } = require('workbox-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { BugsnagSourceMapUploaderPlugin, BugsnagBuildReporterPlugin } = require('webpack-bugsnag-plugins');
+// TODO: Remove these if nobody is not monitoring Bugsnag for the project. Instantiation was already commented out below.
+// const { BugsnagSourceMapUploaderPlugin, BugsnagBuildReporterPlugin } = require('webpack-bugsnag-plugins');
 const pkgJson = require('./package');
 const buildDate = new Date();
 
 module.exports = {
   devtool: 'source-map',
+  mode: production,
   entry: {
     main: './src/app/index.js'
   },
@@ -23,23 +25,28 @@ module.exports = {
       "stream": require.resolve("stream-browserify")
     }
   },
+  optimization: {
+    minimize: true,
+    usedExports: true
+  },
   output: {
     path: path.join(__dirname, 'build'),
     chunkFilename: '[name].bundle.js',
     publicPath: '/',
     globalObject: 'this'
   },
-  mode: 'production',
-  optimization: {
-    minimize: true,
-    usedExports: true
-  },
   plugins: [
-    new CopyWebpackPlugin(['src/.htaccess', { from: 'src/schemas', to: 'schemas' }, {
-      from: 'src/images/logo/*',
-      flatten: true,
-      to: ''
-    }, 'src/iframe.html', 'src/xdLocalStoragePostMessageApi.min.js']),
+    new CopyWebpackPlugin([
+      'src/.htaccess', 
+      { from: 'src/schemas', to: 'schemas' },
+      {
+        from: 'src/images/logo/*',
+        flatten: true,
+        to: ''
+      }, 
+      'src/iframe.html', 
+      'src/xdLocalStoragePostMessageApi.min.js'
+    ]),
     // new webpack.optimize.CommonsChunkPlugin({
     //  name: 'lib',
     //  filename: 'lib.[chunkhash:6].js'

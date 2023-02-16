@@ -2,10 +2,10 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const pkgJson = require('./package');
 const buildDate = new Date();
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   devtool: 'source-map',
@@ -14,7 +14,7 @@ module.exports = {
   },
   mode: 'development',
   entry: {
-    main: './src/app/index.js',
+    main: './src/app/index.js'
   },
   resolve: {
     // When requiring, you don't need to add these extensions
@@ -37,7 +37,11 @@ module.exports = {
     publicPath: '/'
   },
   plugins: [
-    new CopyWebpackPlugin(['src/.htaccess', 'src/iframe.html', 'src/xdLocalStoragePostMessageApi.min.js']),
+    new CopyWebpackPlugin([
+      'src/.htaccess', 
+      'src/iframe.html', 
+      'src/xdLocalStoragePostMessageApi.min.js'
+    ]),
     // new webpack.optimize.CommonsChunkPlugin({
     //   name: 'lib',
     //   filename: 'lib.js'
@@ -46,8 +50,8 @@ module.exports = {
       inject: true,
       template: path.join(__dirname, 'src/index.ejs'),
       version: pkgJson.version,
+      gapiKey: process.env.CORIOLIS_GAPI_KEY || '',
       date: buildDate,
-      gapiKey: process.env.CORIOLIS_GAPI_KEY || ''
     }),
     new MiniCssExtractPlugin({
       filename: 'app.css',
