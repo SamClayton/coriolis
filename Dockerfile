@@ -12,8 +12,8 @@ WORKDIR /app/coriolis-data
 RUN npm install
 WORKDIR /app
 RUN npm install
-# Bundle for production config with webpack
-RUN npm run build
+# Bundle for production config with webpack & log
+RUN npm run build > >(tee -a stdout.log) 2> >(tee -a stderr.log >&2)
 
 # Optimally, this will start a static asset server like nginx/apache. Currently, this will start dev webpack server.
 CMD ["npm", "start"]
