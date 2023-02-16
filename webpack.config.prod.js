@@ -11,7 +11,7 @@ const buildDate = new Date();
 
 module.exports = {
   devtool: 'source-map',
-  mode: production,
+  mode: 'production',
   entry: {
     main: './src/app/index.js'
   },
