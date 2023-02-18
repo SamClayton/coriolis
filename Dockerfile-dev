@@ -12,5 +12,9 @@ RUN npm install
 WORKDIR /app
 RUN npm install
 
+# Install git & any other desired in-container dev tools
+RUN apk update
+RUN apk add git
+
 CMD ["npm", "start"]
 EXPOSE 3300
