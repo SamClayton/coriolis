@@ -28,7 +28,7 @@ entry: {
   output: {
     path: path.join(__dirname, 'build'),
     chunkFilename: '[name].bundle.js',
-    publicPath: '/'
+    publicPath: '/coriolis-staging/'
   },
   plugins: [
     new CopyWebpackPlugin([
