@@ -1,12 +1,14 @@
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { InjectManifest } = require('workbox-webpack-plugin');
 // TODO: Remove these if nobody is not monitoring Bugsnag for the project. Instantiation was already commented out below.
 // const { BugsnagSourceMapUploaderPlugin, BugsnagBuildReporterPlugin } = require('webpack-bugsnag-plugins');
 
 module.exports = merge(common, {
-  // devtool: 'source-map',
+  devtool: 'source-map',
   mode: 'production',
   optimization: {
     minimize: true,
