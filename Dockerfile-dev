@@ -1,6 +1,6 @@
 #syntax=docker/dockerfile:1.4
 # Run this from within this directory. Change the location of coriolis-data repo and image name/tag as needed.
-# docker buildx build --build-context data=../coriolis-data --tag coriolis ./Dockerfile-dev
+# docker buildx build --build-context data=../coriolis-data --tag coriolis -f ./Dockerfile-dev .
 
 FROM node:18-alpine
 
