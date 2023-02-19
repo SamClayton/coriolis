@@ -205,7 +205,6 @@ export default class ShipyardPage extends Page {
         onMouseEnter={noTouch && this._highlightShip.bind(this, s.id)}
         onClick={() => this._toggleCompare(s.id)}
       >
-        <td className="ri">{s.manufacturer}</td>
         <td className="ri">{fInt(s.retailCost)}</td>
         <td className="ri cap">{translate(SizeMap[s.class])}</td>
         <td className="ri">{fInt(s.crew)}</td>
@@ -368,13 +367,6 @@ export default class ShipyardPage extends Page {
             <table style={{ marginLeft: 'calc(12em - 1px)', zIndex: 0 }} className="shipyard-table">
               <thead>
                 <tr className="main">
-                  <th
-                    rowSpan={3}
-                    className="sortable"
-                    onClick={sortShips('manufacturer')}
-                  >
-                    {translate('manufacturer')}
-                  </th>
                   <th>&nbsp;</th>
                   <th
                     rowSpan={3}
@@ -552,7 +544,7 @@ export default class ShipyardPage extends Page {
                   </th>
                   <th
                     className="sortable"
-                    onMouseEnter={termtip.bind(null, 'power distriubtor')}
+                    onMouseEnter={termtip.bind(null, 'power distributor')}
                     onMouseLeave={hide}
                     onClick={sortShips('standard', 4)}
                   >
@@ -623,7 +615,7 @@ export default class ShipyardPage extends Page {
           </div>
         </div>
         <div className="table-tools" >
-          <label><input type="checkbox" checked={this.state.groupCompared} onClick={() => this._toggleGroupCompared()}/>Group highlighted ships</label>
+          <label><input type="checkbox" checked={this.state.groupCompared} onClick={() => this._toggleGroupCompared()}/>{translate('Group highlighted ships')}</label>
         </div>
         </div>
       </div>

@@ -341,16 +341,10 @@ export function shieldMetrics(ship, sys) {
   const maxSysResistance = this.sysResistance(4);
 
   let shield = {};
-  const dimReturnLine = (res) => 1 - (1 - res) * 0.7;
 
   const shieldGeneratorSlot = ship.findInternalByGroup('sg');
   if (shieldGeneratorSlot && shieldGeneratorSlot.enabled && shieldGeneratorSlot.m) {
     const shieldGenerator = shieldGeneratorSlot.m;
-    let res = {
-      kin: shieldGenerator.kinres,
-      therm: shieldGenerator.thermres,
-      expl: shieldGenerator.explres
-    };
     // Boosters
     let boost = 1;
     let boosterExplDmg = 1;
@@ -359,9 +353,6 @@ export function shieldMetrics(ship, sys) {
     for (let slot of ship.hardpoints) {
       if (slot.enabled && slot.m && slot.m.grp == 'sb') {
         boost += slot.m.getShieldBoost();
-        res.expl += slot.m.getExplosiveResistance();
-        res.kin += slot.m.getKineticResistance();
-        res.therm += slot.m.getThermalResistance();
         boosterExplDmg = boosterExplDmg * (1 - slot.m.getExplosiveResistance());
         boosterKinDmg = boosterKinDmg * (1 - slot.m.getKineticResistance());
         boosterThermDmg = boosterThermDmg * (1 - slot.m.getThermalResistance());
@@ -392,7 +383,8 @@ export function shieldMetrics(ship, sys) {
 
     // Our initial regeneration comes from the SYS capacitor store, which is replenished as it goes
     // 0.6 is a magic number from FD: each 0.6 MW of energy from the power distributor recharges 1 MJ/s of regeneration
-    let capacitorDrain = (shieldGenerator.getBrokenRegenerationRate() * 0.6) - sysRechargeRate;
+    let capacitorDrain = (shieldGenerator.getBrokenRegenerationRate() * shieldGenerator.getDistDraw()) - sysRechargeRate;
+    
     let capacitorLifetime = powerDistributor.getSystemsCapacity() / capacitorDrain;
 
     let recover = 16;
@@ -408,7 +400,7 @@ export function shieldMetrics(ship, sys) {
         recover = Math.Infinity;
       } else {
         // Recover remaining shields at the rate of the power distributor's recharge
-        recover += remainingShieldToRecover / (sysRechargeRate / 0.6);
+        recover += remainingShieldToRecover / (sysRechargeRate / shieldGenerator.getDistDraw());
       }
     }
 
@@ -417,7 +409,7 @@ export function shieldMetrics(ship, sys) {
 
     // Our initial regeneration comes from the SYS capacitor store, which is replenished as it goes
     // 0.6 is a magic number from FD: each 0.6 MW of energy from the power distributor recharges 1 MJ/s of regeneration
-    capacitorDrain = (shieldGenerator.getRegenerationRate() * 0.6) - sysRechargeRate;
+    capacitorDrain = (shieldGenerator.getRegenerationRate() * shieldGenerator.getDistDraw()) - sysRechargeRate;
     capacitorLifetime = powerDistributor.getSystemsCapacity() / capacitorDrain;
 
     let recharge = 0;
@@ -433,7 +425,7 @@ export function shieldMetrics(ship, sys) {
         recharge = Math.Inf;
       } else {
         // Recharge remaining shields at the rate of the power distributor's recharge
-        recharge += remainingShieldToRecharge / (sysRechargeRate / 0.6);
+        recharge += remainingShieldToRecharge / (sysRechargeRate / shieldGenerator.getDistDraw());
       }
     }
 
@@ -549,9 +541,6 @@ export function armourMetrics(ship) {
       armourReinforcement += slot.m.getHullReinforcement();
       // Hull boost for HRPs is applied against the ship's base armour
       armourReinforcement += ship.baseArmour * slot.m.getModValue('hullboost') / 10000;
-      // res.expl += slot.m.getExplosiveResistance();
-      // res.kin += slot.m.getKineticResistance();
-      // res.therm += slot.m.getThermalResistance();
       hullExplDmgs.push(1 - slot.m.getExplosiveResistance());
       hullKinDmgs.push(1 - slot.m.getKineticResistance());
       hullThermDmgs.push(1 - slot.m.getThermalResistance());
@@ -930,8 +919,8 @@ export function _weaponSustainedDps(m, opponent, opponentShields, opponentArmour
   weapon.effectiveness.shields.total = weapon.effectiveness.shields.range * weapon.effectiveness.shields.sys * weapon.effectiveness.shields.resistance;
   weapon.effectiveness.armour.total = weapon.effectiveness.armour.range * weapon.effectiveness.armour.resistance * weapon.effectiveness.armour.hardness;
 
-  weapon.effectiveness.shields.dpe = weapon.damage.shields.total / m.getEps();
-  weapon.effectiveness.armour.dpe =  weapon.damage.armour.total / m.getEps();
+  weapon.effectiveness.shields.dpe = weapon.damage.shields.total / m.getEps() / m.getSustainedFactor();
+  weapon.effectiveness.armour.dpe =  weapon.damage.armour.total / m.getEps() / m.getSustainedFactor();
 
 
   return weapon;
