@@ -26,7 +26,8 @@ entry: {
       "https": require.resolve("https-browserify"),
       "http": require.resolve("stream-http"),
       "vm": require.resolve("vm-browserify"),
-      "constants": require.resolve("constants-browserify")
+      "constants": require.resolve("constants-browserify"),
+      // "fs": false
     }
   },
   optimization: {
@@ -35,7 +36,9 @@ entry: {
   output: {
     path: path.join(__dirname, 'build'),
     chunkFilename: '[name].bundle.js',
-    publicPath: '/'
+    // assetModuleFilename: '[contenthash][ext]',
+    publicPath: '/',
+    clean: true // we already do rimraf on the build dir, but this should obviate that
   },
   plugins: [
     // new webpack.optimize.CommonsChunkPlugin({

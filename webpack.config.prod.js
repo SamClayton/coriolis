@@ -4,7 +4,7 @@ const common = require('./webpack.common.js');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { InjectManifest } = require('workbox-webpack-plugin');
+// const { InjectManifest } = require('workbox-webpack-plugin');
 // TODO: Remove these if nobody is not monitoring Bugsnag for the project. Instantiation was already commented out below.
 // const { BugsnagSourceMapUploaderPlugin, BugsnagBuildReporterPlugin } = require('webpack-bugsnag-plugins');
 
@@ -26,14 +26,14 @@ module.exports = merge(common, {
         { from: 'src/schemas', to: 'schemas' },
         {
           from: 'src/images/logo/*',
-          to: path.resolve(__dirname, '[name][ext]')
+          to: '[name][ext]'
         }
     ]}),
     /* new HtmlWebpackPlugin({
       // uaTracking: process.env.CORIOLIS_UA_TRACKING || '',
     }), */
     new MiniCssExtractPlugin({
-      filename: '[hash:6].css',
+      filename: '[contenthash:6].css',
     }),
     // new BugsnagBuildReporterPlugin({
     //   apiKey: 'ba9fae819372850fb660755341fa6ef5',
@@ -44,9 +44,10 @@ module.exports = merge(common, {
     //   overwrite: true,
     //   appVersion: `${pkgJson.version}-${buildDate.toISOString()}`
     // }),
+    /*
     new InjectManifest({
       swSrc: './src/sw.js',
       swDest: 'service-worker.js'
-    }),
+    }), */
   ]
 });

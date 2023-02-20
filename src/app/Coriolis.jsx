@@ -151,9 +151,9 @@ export default class Coriolis extends React.Component {
     console && console.error && console.error(arguments); // eslint-disable-line no-console
     if (errObj) {
       if (errObj instanceof Error) {
-        bugsnagClient.notify(errObj); // eslint-disable-line
+        // bugsnagClient.notify(errObj); // eslint-disable-line
       } else if (errObj instanceof String) {
-        bugsnagClient.notify(msg, errObj); // eslint-disable-line
+        // bugsnagClient.notify(msg, errObj); // eslint-disable-line
       }
     }
     this.setState({
