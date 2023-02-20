@@ -1,6 +1,6 @@
 {
   "name": "coriolis_shipyard",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/EDCD/coriolis"
@@ -106,7 +106,7 @@
     "less-loader": "^11.1.0",
     "mini-css-extract-plugin": "^2.7.2",
     "react-container-dimensions": "^1.4.1",
-    "react-testutils-additions": "^15.0.0",
+    "react-testutils-additions": "^16.0.2",
     "react-transition-group": "^2.5.0",
     "rimraf": "^4.1.2",
     "rollup": "^3.17.2",
