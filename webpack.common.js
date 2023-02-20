@@ -50,28 +50,32 @@ module.exports = {
     //   filename: 'lib.js'
     // }),
     new HtmlWebpackPlugin({
-        inject: true,
-        template: path.join(__dirname, 'src/index.ejs'),
-        version: pkgJson.version,
-        // gapiKey: process.env.CORIOLIS_GAPI_KEY || '',
-        date: buildDate,
-      }),
+      inject: true,
+      template: path.join(__dirname, 'src/index.ejs'),
+      version: pkgJson.version,
+      // gapiKey: process.env.CORIOLIS_GAPI_KEY || '',
+      date: buildDate,
+    }),
     new MiniCssExtractPlugin({
         filename: 'app.css',
-      }),
-    ],
-    module: {
-      rules: [
-        { test: /\.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader' ]},
-        {
-          test: /\.less$/,
-          use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader' ]
-        },
-        { test: /\.(js|jsx)$/, use: ['babel-loader'], include: path.join(__dirname, 'src') },
-        {
-          test: /\.(jpe?g|svg|png|gif|ico|eot|ttf|woff|woff2?)(\?v=\d+\.\d+\.\d+)?$/i,
-          type: 'asset/resource',
-        },
-      ]
-    }
+    }),
+    // Solve missing Buffer polyfill that breaks module engineering
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+    }),
+  ],
+  module: {
+    rules: [
+      { test: /\.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader' ]},
+      {
+        test: /\.less$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader' ]
+      },
+      { test: /\.(js|jsx)$/, use: ['babel-loader'], include: path.join(__dirname, 'src') },
+      {
+        test: /\.(jpe?g|svg|png|gif|ico|eot|ttf|woff|woff2?)(\?v=\d+\.\d+\.\d+)?$/i,
+        type: 'asset/resource',
+      },
+    ]
+  }
 };
