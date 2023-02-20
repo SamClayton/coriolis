@@ -29,6 +29,7 @@
     "test": "jest",
     "prod-serve": "nginx -p $(pwd) -c nginx.conf",
     "prod-stop": "kill -QUIT $(cat nginx.pid)",
+    "buildfresh": "rimraf node_modules && rm package-lock.json && npm install && npm run build > >(tee -a stdout.log) 2> >(tee -a stderr.log >&2)",
     "build": "npm run clean && cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
     "rsync": "rsync -ae \"ssh -i $CORIOLIS_PEM\" --delete build/ $CORIOLIS_USER@$CORIOLIS_HOST:~/wwws",
     "deploy": "npm run lint && npm test && npm run build && npm run rsync"
@@ -105,7 +106,7 @@
     "expose-loader": "^3.1.0",
     "express": "^4.16.3",
     "html-webpack-plugin": "^5.5.0",
-    "jest-cli": "^23.6.0",
+    "jest-cli": "^29.4.3",
     "jsen": "^0.6.4",
     "json-loader": "^0.5.4",
     "less": "^4.1.3",
