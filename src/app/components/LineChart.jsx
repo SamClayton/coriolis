@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ContainerDimensions from 'react-container-dimensions';
+import ContainerDimensions from '@jakerambo/react-container-dimensions';
 import * as d3 from 'd3';
 import TranslatedComponent from './TranslatedComponent';
 

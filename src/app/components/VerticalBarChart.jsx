@@ -1,7 +1,7 @@
 import TranslatedComponent from './TranslatedComponent';
 import React from 'react';
 import PropTypes from 'prop-types';
-import ContainerDimensions from 'react-container-dimensions';
+import ContainerDimensions from '@jakerambo/react-container-dimensions';
 import { BarChart, Bar, XAxis, YAxis, LabelList } from 'recharts';
 
 const CORIOLIS_COLOURS = ['#FF8C0D', '#1FB0FF', '#71A052', '#D5D54D'];

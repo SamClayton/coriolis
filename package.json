@@ -8,9 +8,15 @@
   "homepage": "https://coriolis.io",
   "bugs": "https://github.com/EDCD/coriolis/issues",
   "contributors": [
-    { "name": "cmdrmcdonald" },
-    { "name": "willb321" },
-    { "name": "felixlinker" }
+    {
+      "name": "cmdrmcdonald"
+    },
+    {
+      "name": "willb321"
+    },
+    {
+      "name": "felixlinker"
+    }
   ],
   "private": true,
   "engine": "node >= 12.2.1",
@@ -81,6 +87,7 @@
     "@babel/plugin-syntax-import-meta": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@jakerambo/react-container-dimensions": "^0.0.0-development",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "babel-loader": "^8.0.0",
     "copy-webpack-plugin": "^10.2.4",
@@ -105,7 +112,6 @@
     "less": "^3.8.1",
     "less-loader": "^11.1.0",
     "mini-css-extract-plugin": "^2.7.2",
-    "react-container-dimensions": "^1.4.1",
     "react-testutils-additions": "^16.0.2",
     "react-transition-group": "^2.5.0",
     "rimraf": "^4.1.2",
@@ -132,19 +138,14 @@
     "browserify-zlib-next": "^1.0.1",
     "buffer": "^5.7.0",
     "classnames": "^2.2.6",
-    "constants-browserify": "^1.0.0",
     "core-js": "^3.28.0",
     "coriolis-data": "EDCD/coriolis-data",
-    "crypto-browserify": "^3.12.0",
     "d3": "^5.7.0",
     "detect-browser": "^3.0.1",
     "fbemitter": "^2.1.1",
-    "https-browserify": "^1.0.0",
     "lodash": "^4.17.11",
     "lz-string": "^1.4.4",
-    "os-browserify": "^0.3.0",
     "pako": "^2.1.0",
-    "path-browserify": "^1.0.1",
     "prop-types": "^15.7.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
@@ -155,9 +156,6 @@
     "recharts": "^1.2.0",
     "register-service-worker": "^1.7.2",
     "stream-browserify": "^3.0.0",
-    "stream-http": "^3.2.0",
-    "superagent": "^3.8.3",
-    "url": "^0.11.0",
-    "vm-browserify": "^1.1.2"
+    "superagent": "^3.8.3"
   }
 }
