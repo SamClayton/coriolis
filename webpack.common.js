@@ -7,7 +7,7 @@ const pkgJson = require('./package');
 const buildDate = new Date();
 
 module.exports = {
-entry: {
+  entry: {
     main: './src/app/index.js'
   },
   resolve: {
@@ -15,10 +15,23 @@ entry: {
     extensions: ['.js', '.jsx', '.json', '.less'],
     fallback: {
       // Consider replacing brwoserify-zlib-next c. 2016 package with pako, which it's just a wrapper for
+      /* Some of these polyfills may not even be necessary, and were added in an attempt to deal with build issues
+            while upgrading to Webpack v5 */
       "zlib": require.resolve("browserify-zlib-next"),
       "assert": require.resolve("assert/"),
       "buffer": require.resolve("buffer/"),
-      "stream": require.resolve("stream-browserify")
+      "stream": require.resolve("stream-browserify"),
+      /*
+      "url": require.resolve("url/"),
+      "path": require.resolve("path-browserify"),
+      "crypto": require.resolve("crypto-browserify"),
+      "os": require.resolve("os-browserify/browser"),
+      "https": require.resolve("https-browserify"),
+      "http": require.resolve("stream-http"),
+      "vm": require.resolve("vm-browserify"),
+      "constants": require.resolve("constants-browserify"),
+      // "fs": false
+      */
     }
   },
   optimization: {
@@ -27,7 +40,9 @@ entry: {
   output: {
     path: path.join(__dirname, 'build'),
     chunkFilename: '[name].bundle.js',
-    publicPath: '/'
+    // assetModuleFilename: '[contenthash][ext]',
+    publicPath: '/',
+    clean: true // we already do rimraf on the build dir, but this should obviate that
   },
   plugins: [
     // new webpack.optimize.CommonsChunkPlugin({
