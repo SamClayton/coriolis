@@ -7,7 +7,7 @@ const pkgJson = require('./package');
 const buildDate = new Date();
 
 module.exports = {
-entry: {
+  entry: {
     main: './src/app/index.js'
   },
   resolve: {
