@@ -46,7 +46,6 @@ module.exports = merge(common, {
     // }),
     new InjectManifest({
       swSrc: './src/sw.js',
-      //importWorkboxFrom: 'cdn',
       swDest: 'service-worker.js'
     }),
   ]

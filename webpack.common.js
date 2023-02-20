@@ -18,7 +18,15 @@ entry: {
       "zlib": require.resolve("browserify-zlib-next"),
       "assert": require.resolve("assert/"),
       "buffer": require.resolve("buffer/"),
-      "stream": require.resolve("stream-browserify")
+      "stream": require.resolve("stream-browserify"),
+      "url": require.resolve("url/"),
+      "path": require.resolve("path-browserify"),
+      "crypto": require.resolve("crypto-browserify"),
+      "os": require.resolve("os-browserify/browser"),
+      "https": require.resolve("https-browserify"),
+      "http": require.resolve("stream-http"),
+      "vm": require.resolve("vm-browserify"),
+      "constants": require.resolve("constants-browserify")
     }
   },
   optimization: {
