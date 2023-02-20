@@ -8,15 +8,9 @@
   "homepage": "https://coriolis.io",
   "bugs": "https://github.com/EDCD/coriolis/issues",
   "contributors": [
-    {
-      "name": "cmdrmcdonald"
-    },
-    {
-      "name": "willb321"
-    },
-    {
-      "name": "felixlinker"
-    }
+    { "name": "cmdrmcdonald" },
+    { "name": "willb321" },
+    { "name": "felixlinker" }
   ],
   "private": true,
   "engine": "node >= 10.13.0",
