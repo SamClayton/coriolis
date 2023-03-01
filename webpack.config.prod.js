@@ -5,8 +5,6 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { InjectManifest } = require('workbox-webpack-plugin');
-// TODO: Remove these if nobody is not monitoring Bugsnag for the project. Instantiation was already commented out below.
-// const { BugsnagSourceMapUploaderPlugin, BugsnagBuildReporterPlugin } = require('webpack-bugsnag-plugins');
 
 module.exports = merge(common, {
   // devtool: 'source-map',
